@@ -125,7 +125,7 @@ id_врача (FK -> ВРАЧИ.id) — Идентификатор лечаще�
 ![](https://github.com/Stapok132/work1/blob/main/44.jpg)
 
 ## Лабораторная работа №4
-##Генератор отделений
+## Генератор отделений
 CREATE OR REPLACE PROCEDURE kanin.генерировать_отделения(кол_во INTEGER) 
 LANGUAGE plpgsql AS $$
 DECLARE 
@@ -139,7 +139,7 @@ BEGIN
 END;
 $$;
 ![](https://github.com/Stapok132/work1/blob/main/1.png)
-##Генератор врачей
+## Генератор врачей
 CREATE OR REPLACE PROCEDURE kanin.генерировать_врачей(кол_во INTEGER) 
 LANGUAGE plpgsql AS $$
 BEGIN
@@ -158,7 +158,7 @@ BEGIN
 END;
 $$;
 ![](https://github.com/Stapok132/work1/blob/main/2.png)
-##Генератор историй болезни
+## Генератор историй болезни
 CREATE OR REPLACE PROCEDURE kanin.генерировать_истории(кол_во INTEGER) 
 LANGUAGE plpgsql AS $$
 BEGIN
@@ -184,7 +184,7 @@ BEGIN
 END;
 $$;
 ![](https://github.com/Stapok132/work1/blob/main/3.png)
-##Генератор пациентов
+## Генератор пациентов
 CREATE OR REPLACE PROCEDURE kanin.генерировать_пациентов(кол_во INTEGER) 
 LANGUAGE plpgsql AS $$
 BEGIN
@@ -201,7 +201,7 @@ BEGIN
 END;
 $$;
 ![](https://github.com/Stapok132/work1/blob/main/4.png)
-##Анализ запросов
+## Анализ запросов
 -- 1. Поиск по ID
 EXPLAIN ANALYZE SELECT * FROM kanin."врачи" WHERE id = 100;
 
@@ -232,12 +232,12 @@ EXPLAIN ANALYZE SELECT должность, COUNT(*), AVG(зарплата) FROM 
 -- 10. Составной WHERE
 EXPLAIN ANALYZE SELECT * FROM kanin."врачи" WHERE отделение_id = 1 AND должность = 'Хирург' AND зарплата > 50000;
 ![](https://github.com/Stapok132/work1/blob/main/5.png)
-##Создали индекс
+## Создали индекс
 ![](https://github.com/Stapok132/work1/blob/main/6.png)
-##Принудительно отключили его
+## Принудительно отключили его
 ![](https://github.com/Stapok132/work1/blob/main/7.png)
-##Без индекса
+## Без индекса
 ![](https://github.com/Stapok132/work1/blob/main/8.png)
-##С индексом
+## С индексом
 ![](https://github.com/Stapok132/work1/blob/main/9.png)
-#С индексами производительность становится быстрее
+# С индексами производительность становится быстрее
