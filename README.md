@@ -91,38 +91,38 @@ id_врача (FK -> ВРАЧИ.id) — Идентификатор лечаще�
 ## Физическая модель по диаграмме
 ![Физическая модель по диаграмме](https://github.com/Stapok132/work1/blob/main/fiz.png)
 
-![Лабораторная работа №2]()
-![Создаём 4 таблицы с записанными в них данными]() 
+## Лабораторная работа №2
+## Создаём 4 таблицы с записанными в них данными
 ![](https://github.com/Stapok132/work1/blob/main/8.png)
 ![](https://github.com/Stapok132/work1/blob/main/9.png)
 ![](https://github.com/Stapok132/work1/blob/main/10.png)
-![После создания таблиц, выводим их для для проверки]()
+## После создания таблиц, выводим их для для проверки
 ![](https://github.com/Stapok132/work1/blob/main/4.png)
 ![](https://github.com/Stapok132/work1/blob/main/5.png)
 ![](https://github.com/Stapok132/work1/blob/main/6.png)
 ![](https://github.com/Stapok132/work1/blob/main/7.png)
-![Далее выполняем SELECT-запросы с JOIN]()
+## Далее выполняем SELECT-запросы с JOIN
 ![](https://github.com/Stapok132/work1/blob/main/11ю2.png)
 ![](https://github.com/Stapok132/work1/blob/main/11ю1.png)
 ![](https://github.com/Stapok132/work1/blob/main/123.png)
 ![](https://github.com/Stapok132/work1/blob/main/121.png)
 ![](https://github.com/Stapok132/work1/blob/main/122.png)
 
-![Лабораторная работа №3]()
-![Создадим 2 представления(Зарплатная ведомость и полная история пациентов)]()
+## Лабораторная работа №3
+## Создадим 2 представления(Зарплатная ведомость и полная история пациентов)
 ![](https://github.com/Stapok132/work1/blob/main/1!.jpg)
-![Первая процедура]()
+## Первая процедура
 ![](https://github.com/Stapok132/work1/blob/main/2!.jpg)
-![Вторая процедура]()
+## Вторая процедура
 ![](https://github.com/Stapok132/work1/blob/main/3!.jpg)
-![Результат первого представления]()
+## Результат первого представления
 ![](https://github.com/Stapok132/work1/blob/main/11.jpg)
-![Результат второго представления]()
+## Результат второго представления
 ![](https://github.com/Stapok132/work1/blob/main/22.jpg)
-![Результат первой процедуры]()
+## Результат первой процедуры
 ![](https://github.com/Stapok132/work1/blob/main/33.jpg)
-![Результат второй процедуры]()
+## Результат второй процедуры
 ![](https://github.com/Stapok132/work1/blob/main/44.jpg)
 
-![Лабораторная работа №4]()
+## Лабораторная работа №4
 
