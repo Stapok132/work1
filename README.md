@@ -233,11 +233,11 @@ EXPLAIN ANALYZE SELECT должность, COUNT(*), AVG(зарплата) FROM 
 EXPLAIN ANALYZE SELECT * FROM kanin."врачи" WHERE отделение_id = 1 AND должность = 'Хирург' AND зарплата > 50000;
 ![](https://github.com/Stapok132/work1/blob/main/5.png)
 ## Создали индекс
-![](https://github.com/Stapok132/work1/blob/main/6.png)
+![](https://github.com/Stapok132/work1/blob/main/laba1.png)
 ## Принудительно отключили его
 ![](https://github.com/Stapok132/work1/blob/main/7.png)
 ## Без индекса
-![](https://github.com/Stapok132/work1/blob/main/8.png)
+![](https://github.com/Stapok132/work1/blob/main/laba2.png)
 ## С индексом
-![](https://github.com/Stapok132/work1/blob/main/9.png)
+![](https://github.com/Stapok132/work1/blob/main/laba3.png)
 # С индексами производительность становится быстрее
