@@ -240,6 +240,6 @@ EXPLAIN ANALYZE SELECT * FROM kanin."врачи" WHERE отделение_id = 1
 ![](https://github.com/Stapok132/work1/blob/main/laba2.png)
 ## С индексом
 ![](https://github.com/Stapok132/work1/blob/main/laba3.png)
-# С индексами производительность становится быстрее
+### С индексами производительность становится быстрее
 
 ## Лабораторная работа №5
