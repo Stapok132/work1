@@ -120,9 +120,9 @@ id_врача (FK -> ВРАЧИ.id) — Идентификатор лечаще�
 ## Результат второго представления
 ![](https://github.com/Stapok132/work1/blob/main/lln1.png)
 ## Результат первой процедуры
-![](https://github.com/Stapok132/work1/blob/main/лаба%203/ll6.jpg)
+![](https://github.com/Stapok132/work1/blob/main/lln3.png)
 ## Результат второй процедуры
-![](https://github.com/Stapok132/work1/blob/main/лаба%203/ll7.jpg)
+![](https://github.com/Stapok132/work1/blob/main/lln2.png)
 
 ## Лабораторная работа №4
 ## Генератор отделений
