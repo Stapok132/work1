@@ -93,18 +93,18 @@ id_врача (FK -> ВРАЧИ.id) — Идентификатор лечаще�
 
 ![Лабораторная работа №2]
 ![Создаём 4 таблицы с записанными в них данными] 
-(https://github.com/Stapok132/work1/blob/main/8.png)
-(https://github.com/Stapok132/work1/blob/main/9.png)
-(https://github.com/Stapok132/work1/blob/main/10.png)
+!(https://github.com/Stapok132/work1/blob/main/8.png)
+!(https://github.com/Stapok132/work1/blob/main/9.png)
+!(https://github.com/Stapok132/work1/blob/main/10.png)
 ![После создания таблиц, выводим их для для проверки]
-(https://github.com/Stapok132/work1/blob/main/4.png)
-(https://github.com/Stapok132/work1/blob/main/5.png)
-(https://github.com/Stapok132/work1/blob/main/6.png)
-(https://github.com/Stapok132/work1/blob/main/7.png)
+!(https://github.com/Stapok132/work1/blob/main/4.png)
+!(https://github.com/Stapok132/work1/blob/main/5.png)
+!(https://github.com/Stapok132/work1/blob/main/6.png)
+!(https://github.com/Stapok132/work1/blob/main/7.png)
 ![Далее выполняем SELECT-запросы с JOIN]
-(https://github.com/Stapok132/work1/blob/main/11ю2.png)
-(https://github.com/Stapok132/work1/blob/main/11ю1.png)
-(https://github.com/Stapok132/work1/blob/main/123.png)
+!(https://github.com/Stapok132/work1/blob/main/11ю2.png)
+!(https://github.com/Stapok132/work1/blob/main/11ю1.png)
+!(https://github.com/Stapok132/work1/blob/main/123.png)
 (https://github.com/Stapok132/work1/blob/main/121.png)
 (https://github.com/Stapok132/work1/blob/main/122.png)
 
