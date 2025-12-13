@@ -118,7 +118,7 @@ id_врача (FK -> ВРАЧИ.id) — Идентификатор лечаще�
 ## Результат первого представления
 ![](https://github.com/Stapok132/work1/blob/main/лаба%203/ll4.jpg)
 ## Результат второго представления
-![](https://github.com/Stapok132/work1/blob/main/лаба%203/ll5.jpg)
+![](https://github.com/Stapok132/work1/blob/main/lln1.png)
 ## Результат первой процедуры
 ![](https://github.com/Stapok132/work1/blob/main/лаба%203/ll6.jpg)
 ## Результат второй процедуры
