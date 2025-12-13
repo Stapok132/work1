@@ -93,7 +93,7 @@ id_врача (FK -> ВРАЧИ.id) — Идентификатор лечаще�
 
 ![Лабораторная работа №2]
 ![Создаём 4 таблицы с записанными в них данными] 
-[](https://github.com/Stapok132/work1/blob/main/8.png)
+![](https://github.com/Stapok132/work1/blob/main/8.png)
 [](https://github.com/Stapok132/work1/blob/main/9.png)
 [](https://github.com/Stapok132/work1/blob/main/10.png)
 [][После создания таблиц, выводим их для для проверки]
