@@ -86,10 +86,10 @@ id_врача (FK -> ВРАЧИ.id) — Идентификатор лечаще�
 ![ER диаграмма](https://github.com/Stapok132/work1/blob/main/er.png)
 
 ## Логическая модель по диаграмме
-![Логическая модель по диаграмме](https://github.com/Stapok132/work1/blob/main/logic.png)
+![Логическая модель по диаграмме](https://github.com/Stapok132/work1/blob/main/logic1.png)
 
 ## Физическая модель по диаграмме
-![Физическая модель по диаграмме](https://github.com/Stapok132/work1/blob/main/fiz.png)
+![Физическая модель по диаграмме](https://github.com/Stapok132/work1/blob/main/fiz2.png)
 
 ## Лабораторная работа №2
 ## Создаём 4 таблицы с записанными в них данными
