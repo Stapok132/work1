@@ -243,3 +243,212 @@ EXPLAIN ANALYZE SELECT * FROM kanin."врачи" WHERE отделение_id = 1
 ### С индексами производительность становится быстрее
 
 ## Лабораторная работа №5
+## 1. ТРИГГЕР КАСКАДНОГО УДАЛЕНИЯ ИСТОРИЙ БОЛЕЗНЕЙ ПРИ УДАЛЕНИИ ПАЦИЕНТА
+-- Функция для каскадного удаления историй болезней при удалении пациента
+CREATE OR REPLACE FUNCTION kanin."удалить_истории_болезни_каскадно"()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RAISE NOTICE 'Триггер запущен! Удаляем истории болезни пациента % % (ID: %)', 
+        OLD.фамилия, OLD.имя, OLD.id;
+    
+    -- Удаляем все истории болезни пациента
+    DELETE FROM kanin."истории_болезни" WHERE пациент_id = OLD.id;
+    
+    RAISE NOTICE 'Удалено историй болезни: %', (SELECT COUNT(*) FROM kanin."истории_болезни" WHERE пациент_id = OLD.id);
+    
+    RETURN OLD;
+END;
+$$;
+
+-- Создание триггера
+CREATE OR REPLACE TRIGGER "удалить_истории_болезни_триггер"
+    BEFORE DELETE ON kanin."пациенты"
+    FOR EACH ROW
+    EXECUTE FUNCTION kanin."удалить_истории_болезни_каскадно"();
+## Проверка
+![](https://github.com/Stapok132/work1/blob/main/лаба5/b1.png)
+## 2. ТРИГГЕР КАСКАДНОГО УДАЛЕНИЯ ИСТОРИЙ БОЛЕЗНЕЙ ПРИ УДАЛЕНИИ ВРАЧА
+-- Функция для каскадного удаления историй болезней при удалении врача
+CREATE OR REPLACE FUNCTION kanin."удалить_истории_врача_каскадно"()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RAISE NOTICE 'Триггер запущен! Удаляем истории болезни врача % (ID: %)', 
+        OLD.фио, OLD.id;
+    
+    -- Удаляем все истории болезни врача
+    DELETE FROM kanin."истории_болезни" WHERE врач_id = OLD.id;
+    
+    RAISE NOTICE 'Удалено историй болезни: %', (SELECT COUNT(*) FROM kanin."истории_болезни" WHERE врач_id = OLD.id);
+    
+    RETURN OLD;
+END;
+$$;
+
+-- Создание триггера для врачей
+CREATE OR REPLACE TRIGGER "удалить_истории_врача_триггер"
+    BEFORE DELETE ON kanin."врачи"
+    FOR EACH ROW
+    EXECUTE FUNCTION kanin."удалить_истории_врача_каскадно"();
+## Проверка
+![](https://github.com/Stapok132/work1/blob/main/лаба5/b2.png)
+## 3. СОЗДАНИЕ ТАБЛИЦЫ АУДИТА 
+-- СОЗДАНИЕ ТАБЛИЦЫ АУДИТА ДЛЯ ИСТОРИЙ БОЛЕЗНЕЙ
+CREATE TABLE IF NOT EXISTS kanin."истории_болезни_аудит"(
+    аудит_id SERIAL PRIMARY KEY,
+    операция CHAR(1) NOT NULL CHECK (операция IN ('I', 'U', 'D')),  -- I=INSERT, U=UPDATE, D=DELETE
+    дата_изменения TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    пользователь TEXT DEFAULT CURRENT_USER,
+
+    -- Копия основных полей из таблицы историй болезни
+    история_id INTEGER,
+    пациент_id INTEGER,
+    врач_id INTEGER,
+    диагноз VARCHAR(100),
+    дата_начала DATE,
+    дата_окончания DATE,
+    симптомы TEXT
+);
+## 4. СОЗДАНИЕ ФУНКЦИИ И ТРИГГЕРА АУДИТА
+-- ФУНКЦИЯ ДЛЯ АУДИТА ИЗМЕНЕНИЙ В ТАБЛИЦЕ ИСТОРИЙ БОЛЕЗНИ
+CREATE OR REPLACE FUNCTION kanin."истории_болезни_аудит_функция"()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    IF (TG_OP = 'UPDATE') THEN
+        INSERT INTO kanin."истории_болезни_аудит"(
+            операция, история_id, пациент_id, врач_id, 
+            диагноз, дата_начала, дата_окончания, симптомы
+        )
+        VALUES (
+            'U', NEW.id, NEW.пациент_id, NEW.врач_id,
+            NEW.название_болезни, NEW.дата_начала, NEW.дата_окончания, NEW.симптомы
+        );
+        RETURN NEW;
+    
+    ELSIF (TG_OP = 'DELETE') THEN
+        INSERT INTO kanin."истории_болезни_аудит"(
+            операция, история_id, пациент_id, врач_id, 
+            диагноз, дата_начала, дата_окончания, симптомы
+        )
+        VALUES (
+            'D', OLD.id, OLD.пациент_id, OLD.врач_id,
+            OLD.название_болезни, OLD.дата_начала, OLD.дата_окончания, OLD.симптомы
+        );
+        RETURN OLD;
+    
+    ELSIF (TG_OP = 'INSERT') THEN
+        INSERT INTO kanin."истории_болезни_аудит"(
+            операция, история_id, пациент_id, врач_id, 
+            диагноз, дата_начала, дата_окончания, симптомы
+        )
+        VALUES (
+            'I', NEW.id, NEW.пациент_id, NEW.врач_id,
+            NEW.название_болезни, NEW.дата_начала, NEW.дата_окончания, NEW.симптомы
+        );
+        RETURN NEW;
+    END IF;
+END;
+$$;
+
+-- СОЗДАНИЕ ТРИГГЕРА АУДИТА ДЛЯ ИСТОРИЙ БОЛЕЗНИ
+CREATE OR REPLACE TRIGGER "истории_болезни_аудит_триггер"
+    AFTER INSERT OR UPDATE OR DELETE ON kanin."истории_болезни"
+    FOR EACH ROW
+    EXECUTE FUNCTION kanin."истории_болезни_аудит_функция"();
+## 5. ПРОВЕРКА ТРИГГЕРОВ АУДИТА
+### ФУНКЦИЯ ГЕНЕРАЦИИ ТЕСТОВЫХ ИСТОРИЙ БОЛЕЗНЕЙ
+CREATE OR REPLACE PROCEDURE kanin."сгенерировать_тестовые_истории"(количество INTEGER)
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    i INTEGER;
+    случайный_пациент_id INTEGER;
+    случайный_врач_id INTEGER;
+    случайная_дата DATE;
+    диагнозы TEXT[] := ARRAY['Грипп', 'ОРВИ', 'Бронхит', 'Пневмония', 'Гастрит', 'Ангина', 'Остеохондроз', 'Мигрень', 'Гипертония', 'Диабет'];
+    симптомы TEXT[] := ARRAY['Температура', 'Кашель', 'Головная боль', 'Тошнота', 'Слабость', 'Боль в горле', 'Насморк', 'Боль в животе'];
+BEGIN
+    FOR i IN 1..количество LOOP
+        -- Выбираем случайного пациента
+        SELECT id INTO случайный_пациент_id 
+        FROM kanin."пациенты" 
+        ORDER BY RANDOM() 
+        LIMIT 1;
+        
+        -- Выбираем случайного врача
+        SELECT id INTO случайный_врач_id 
+        FROM kanin."врачи" 
+        ORDER BY RANDOM() 
+        LIMIT 1;
+        
+        -- Генерируем случайную дату (последние 90 дней)
+        случайная_дата := CURRENT_DATE - (FLOOR(RANDOM() * 90))::INTEGER;
+        
+        -- Вставляем запись истории болезни
+        INSERT INTO kanin."истории_болезни" (
+            пациент_id, 
+            врач_id, 
+            название_болезни, 
+            симптомы, 
+            назначения, 
+            дата_начала,
+            дата_окончания
+        )
+        VALUES (
+            случайный_пациент_id,
+            случайный_врач_id,
+            диагнозы[1 + FLOOR(RANDOM() * array_length(диагнозы, 1))],
+            симптомы[1 + FLOOR(RANDOM() * array_length(симптомы, 1))] || ', ' || 
+            симптомы[1 + FLOOR(RANDOM() * array_length(симптомы, 1))],
+            'Лечение назначено',
+            случайная_дата,
+            CASE 
+                WHEN RANDOM() > 0.3 THEN случайная_дата + (FLOOR(RANDOM() * 14) + 1)::INTEGER
+                ELSE NULL 
+            END
+        );
+    END LOOP;
+END;
+$$;
+### ТЕСТИРОВАНИЕ ТРИГГЕРОВ АУДИТА
+-- 1. ГЕНЕРИРУЕМ 10 ТЕСТОВЫХ ИСТОРИЙ БОЛЕЗНЕЙ
+CALL kanin."сгенерировать_тестовые_истории"(10);
+
+-- 2. УДАЛЯЕМ ОДНУ ИСТОРИЮ БОЛЕЗНИ
+DELETE FROM kanin."истории_болезни" 
+WHERE id IN (SELECT id FROM kanin."истории_болезни" ORDER BY RANDOM() LIMIT 1);
+
+-- 3. ОБНОВЛЯЕМ ОДНУ ИСТОРИЮ БОЛЕЗНИ
+UPDATE kanin."истории_болезни" 
+SET симптомы = 'Температура, сильный кашель, слабость'
+WHERE id = (SELECT id FROM kanin."истории_болезни" ORDER BY id DESC LIMIT 1);
+### ПРОВЕРКА РЕЗУЛЬТАТОВ АУДИТА
+-- 4. ПРОВЕРЯЕМ АУДИТ
+SELECT '=== ПРОВЕРКА АУДИТА ===' AS проверка;
+SELECT 
+    операция,
+    COUNT(*) AS количество_записей
+FROM kanin."истории_болезни_аудит"
+GROUP BY операция
+ORDER BY операция;
+
+-- СМОТРИМ ДЕТАЛИ АУДИТА
+SELECT 
+    'Последние записи аудита:' AS информация,
+    операция,
+    диагноз,
+    дата_начала,
+    дата_изменения
+FROM kanin."истории_болезни_аудит"
+ORDER BY дата_изменения DESC
+LIMIT 5;
+![](https://github.com/Stapok132/work1/blob/main/лаба5/b3.png)
+### 6.ОЧИСТКА ТЕСТОВЫХ ДАННЫХ
+-- УДАЛЯЕМ ВРЕМЕННУЮ ПРОЦЕДУРУ
+DROP PROCEDURE IF EXISTS kanin."сгенерировать_тестовые_истории"(INTEGER);
+![](https://github.com/Stapok132/work1/blob/main/лаба5/b4.png)
